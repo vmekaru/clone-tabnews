@@ -9,8 +9,16 @@ async function query(queryObject){
         database:process.env.POSTGRES_DB,
     })
     await client.connect()
-    const res = await client.query(queryObject)
-    await client.end()
+
+    let res
+    try {
+        res = await client.query(queryObject)
+    } catch (err){
+        console.error(err)
+    }
+    finally {
+        await client.end()
+    }
     return res
 }
 
